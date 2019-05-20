@@ -1,7 +1,6 @@
 package org.conselhotutelar.utilitarios;
 
 import org.conselhotutelar.modelos.ValueObject;
-import org.conselhotutelar.repositorios.GenericRepository;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;

@@ -1,4 +1,4 @@
-package org.conselhotutelar.repositorios;
+package org.conselhotutelar.utilitarios;
 
 import javax.persistence.PersistenceException;
 

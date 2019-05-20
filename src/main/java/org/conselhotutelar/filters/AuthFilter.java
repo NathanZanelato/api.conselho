@@ -25,6 +25,8 @@ public class AuthFilter implements Filter {
     static {
         NO_FILTERED_RESOURCES = new LinkedHashMap<>();
         NO_FILTERED_RESOURCES.put(LOGIN_PATH, true);
+
+        NO_FILTERED_RESOURCES.put("/api.conselho/conselheiras", true);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class AuthFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private boolean authorize(String authorization) throws ServletException {
+    private boolean authorize(String authorization) {
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
             return false;
