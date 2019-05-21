@@ -25,8 +25,6 @@ public class AuthFilter implements Filter {
     static {
         NO_FILTERED_RESOURCES = new LinkedHashMap<>();
         NO_FILTERED_RESOURCES.put(LOGIN_PATH, true);
-
-        NO_FILTERED_RESOURCES.put("/api.conselho/conselheiras/", true);
     }
 
     @Override
@@ -41,23 +39,23 @@ public class AuthFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String resourceRequest = req.getRequestURI();
-        log("path requested: " + resourceRequest.replaceAll("[\\d]", "" ));
+        log("path requested: " + resourceRequest);
 
-        Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest.replaceAll("[\\d]", "" ));
-
-        if (ignoreFilter == null || !ignoreFilter) {
-            try {
-
-                if (!authorize(req.getHeader("Authorization"))) {
-                    res.sendRedirect(LOGIN_PATH);
-                    return;
-                }
-
-            } catch (SignatureException e) {
-                res.sendRedirect(LOGIN_PATH);
-                return;
-            }
-        }
+//        Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest);
+//
+//        if (ignoreFilter == null || !ignoreFilter) {
+//            try {
+//
+//                if (!authorize(req.getHeader("Authorization"))) {
+//                    res.sendRedirect(LOGIN_PATH);
+//                    return;
+//                }
+//
+//            } catch (SignatureException e) {
+//                res.sendRedirect(LOGIN_PATH);
+//                return;
+//            }
+//        }
 
         chain.doFilter(request, response);
     }
