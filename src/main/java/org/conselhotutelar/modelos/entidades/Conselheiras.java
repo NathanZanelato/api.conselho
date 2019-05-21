@@ -37,6 +37,7 @@ public class Conselheiras implements ValueObject {
     @Column(name = "DT_POSSE", nullable = false)
     private Date dtPosse;
 
+	@NotNull(message = "{Conselheiras.matricula.NotNull}")
     @Size(max = 20, message = "{Conselheiras.matricula.Size}")
     @Column(name = "MATRICULA", length = 20, nullable = false)
     private String matricula;
