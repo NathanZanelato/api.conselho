@@ -26,7 +26,7 @@ public class AuthFilter implements Filter {
         NO_FILTERED_RESOURCES = new LinkedHashMap<>();
         NO_FILTERED_RESOURCES.put(LOGIN_PATH, true);
 
-        NO_FILTERED_RESOURCES.put("/api.conselho/conselheiras", true);
+        NO_FILTERED_RESOURCES.put("/api.conselho/conselheiras/", true);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class AuthFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String resourceRequest = req.getRequestURI();
-        log("path requested: " + resourceRequest);
+        log("path requested: " + resourceRequest.replaceAll("[\\d]", "" ));
 
-        Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest);
+        Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest.replaceAll("[\\d]", "" ));
 
         if (ignoreFilter == null || !ignoreFilter) {
             try {
