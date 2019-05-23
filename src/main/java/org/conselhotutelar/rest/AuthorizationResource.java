@@ -47,7 +47,8 @@ public class AuthorizationResource {
 
         Usuarios usuarioCadastrado = repository.findByUsernameAndPassword(usuario.getUsername(), usuario.getPassword());
         if (usuarioCadastrado == null) {
-            throw new BusinessException("Usuário e senha não cadastrados");
+            //throw new BusinessException("Usuário e senha não cadastrados");
+            return Response.status(Response.Status.OK).entity("{\"error\" : \"Usuário e senha não cadastrados\"}").build();
         }
 
         return Response.ok().entity(new Authorization(usuarioCadastrado)).build();

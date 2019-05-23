@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.Key;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -41,21 +42,21 @@ public class AuthFilter implements Filter {
         String resourceRequest = req.getRequestURI();
         log("path requested: " + resourceRequest);
 
-//        Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest);
-//
-//        if (ignoreFilter == null || !ignoreFilter) {
-//            try {
-//
-//                if (!authorize(req.getHeader("Authorization"))) {
-//                    res.sendRedirect(LOGIN_PATH);
-//                    return;
-//                }
-//
-//            } catch (SignatureException e) {
-//                res.sendRedirect(LOGIN_PATH);
-//                return;
-//            }
-//        }
+        Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest);
+
+        if (ignoreFilter == null || !ignoreFilter) {
+            try {
+
+                if (!authorize(req.getHeader("Authorization"))) {
+                    res.sendRedirect(LOGIN_PATH);
+                    return;
+                }
+
+            } catch (SignatureException e) {
+                res.sendRedirect(LOGIN_PATH);
+                return;
+            }
+        }
 
         chain.doFilter(request, response);
     }
@@ -72,9 +73,10 @@ public class AuthFilter implements Filter {
             return false;
         }
 
+        log("Request authorization: " + token);
+
         Jwts.parser().setSigningKey(AUTHORIZATION_KEY).parseClaimsJws(token).getBody();
 
-        log("Request authorization: " + token);
         return true;
     }
 
