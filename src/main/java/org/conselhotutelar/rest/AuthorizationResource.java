@@ -34,7 +34,7 @@ public class AuthorizationResource {
                 .concat(":")
                 .concat(String.valueOf(req.getServerPort()))
                 .concat(LOGIN_PATH))
-                .status(Response.Status.FORBIDDEN)
+                .status(Response.Status.UNAUTHORIZED)
                 .build();
     }
 
@@ -51,15 +51,15 @@ public class AuthorizationResource {
             return Response.status(Response.Status.OK).entity("{\"error\" : \"Usuário e senha não cadastrados\"}").build();
         }
 
-        return Response.ok().entity(new Authorization(usuarioCadastrado)).build();
+        return Response.ok().entity(new Credentials(usuarioCadastrado)).build();
     }
 
-    private static class Authorization implements Serializable {
+    private static class Credentials implements Serializable {
         private Usuarios usuario;
         private String token;
-        private Authorization(){}
-        Authorization(Usuarios usuario) {
-            usuario.setPassword(null);
+        private Credentials(){}
+        Credentials(Usuarios usuario) {
+            usuario.setPassword(null); // limpa o password para não ficar o dado vulnerável no browser
             this.usuario = usuario;
             this.token = Jwts.builder().setSubject(usuario.getUsername()).setId(usuario.getId().toString()).signWith(AUTHORIZATION_KEY).compact();
         }

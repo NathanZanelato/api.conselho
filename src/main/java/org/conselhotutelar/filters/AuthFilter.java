@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.Key;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -40,20 +39,24 @@ public class AuthFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         String resourceRequest = req.getRequestURI();
-        log("path requested: " + resourceRequest);
+        log("request: " + req.getMethod() + " " + resourceRequest);
 
         Boolean ignoreFilter = NO_FILTERED_RESOURCES.get(resourceRequest);
 
-        if (ignoreFilter == null || !ignoreFilter) {
+        boolean isOptionsRequest = req.getMethod().equals("OPTIONS");
+
+        if (!isOptionsRequest && (ignoreFilter == null || !ignoreFilter)) {
             try {
 
-                if (!authorize(req.getHeader("Authorization"))) {
-                    res.sendRedirect(LOGIN_PATH);
-                    return;
+                if (unauthorize(req.getHeader("authorization"))) {
+                    if (unauthorize(req.getHeader("Authorization"))) {
+                        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return;
+                    }
                 }
 
             } catch (SignatureException e) {
-                res.sendRedirect(LOGIN_PATH);
+                res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
         }
@@ -61,23 +64,23 @@ public class AuthFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private boolean authorize(String authorization) {
+    private boolean unauthorize(String authorization) {
 
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            return false;
+            return true;
         }
 
         String token = authorization.substring(7).trim();
 
         if (token.isEmpty()) {
-            return false;
+            return true;
         }
 
-        log("Request authorization: " + token);
+        log("credentials: " + token);
 
         Jwts.parser().setSigningKey(AUTHORIZATION_KEY).parseClaimsJws(token).getBody();
 
-        return true;
+        return false;
     }
 
     @Override
