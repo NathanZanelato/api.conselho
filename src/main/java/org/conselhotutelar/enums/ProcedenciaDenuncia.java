@@ -3,17 +3,17 @@ package org.conselhotutelar.enums;
 public enum ProcedenciaDenuncia {
 
 
-    UM(1,"Disque denúncia local"),
-    DOIS(2,"Sistema social/CRAS/CREAS"),
-    TRES(3,"Disque 100"),
-    QUATRO(4,"Ministério público/ Vara da família / ministério do trabalho/defensoria publica"),
-    CINCO(5,"Escola estadual"),
-    SEIS(6,"Escola municipal"),
-    SETE(7,"Escola particular"),
-    OITO(8,"APOIA"),
-    NOVE(9,"Serviço de saúde/ hospitais/ unidade de saúde/ SINAM"),
-    DEZ(10,"A própria criança ou adolescente"),
-    ONZE(11,"Família/ Responsável")
+    UM(1,"1 - Disque denúncia local"),
+    DOIS(2,"2 - Sistema social/CRAS/CREAS"),
+    TRES(3,"3 - Disque 100"),
+    QUATRO(4,"4 - Ministério público/ Vara da família / ministério do trabalho/defensoria publica"),
+    CINCO(5,"5 - Escola estadual"),
+    SEIS(6,"6 - Escola municipal"),
+    SETE(7,"7 - Escola particular"),
+    OITO(8,"8 - APOIA"),
+    NOVE(9,"9 - Serviço de saúde/ hospitais/ unidade de saúde/ SINAM"),
+    DEZ(10,"10 - A própria criança ou adolescente"),
+    ONZE(11,"11 - Família/ Responsável")
     ;
 
     private Integer value;

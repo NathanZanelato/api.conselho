@@ -42,6 +42,10 @@ public class Criancas implements ValueObject {
     @Column(name = "DEFICIENTE", length = 1, nullable = false)
     private String deficiente;
 
+    @Size(min = 2, max = 50, message = "{Criancas.descricaoDeficiencia.Size}")
+    @Column(name = "DESCRICAO_DEFICIENCIA", length = 50)
+    private String descricaoDeficiencia;
+
     @NotNull(message = "{Criancas.sexo.NotNull}")
     @Size(max = 1, message = "{Criancas.sexo.Size}")
     @Column(name = "SEXO", length = 1, nullable = false)
@@ -98,6 +102,14 @@ public class Criancas implements ValueObject {
 
     public void setDeficiente(String deficiente) {
         this.deficiente = deficiente;
+    }
+
+    public String getDescricaoDeficiencia() {
+        return descricaoDeficiencia;
+    }
+
+    public void setDescricaoDeficiencia(String descricaoDeficiencia) {
+        this.descricaoDeficiencia = descricaoDeficiencia;
     }
 
     public String getSexo() {

@@ -2,20 +2,20 @@ package org.conselhotutelar.enums;
 
 public enum AgenteViolador {
 
-    UM(1, "Secretaria assistência social /  CRAS / CREAS"),
-    DOIS(2, "Secretaria de saúde / unidades de saúde"),
-    TRES(3, "Educação / Municipio"),
-    QUATRO(4, "Educação / ONG / Particular / AFASC"),
-    CINCO(5, "Hospitais"),
-    SEIS(6, "Policia civil"),
-    SETE(7, "Policia militar"),
-    OITO(8, "Pai"),
-    NOVE(9, "Mãe"),
-    DEZ(10, "Padrasto"),
-    ONZE(11, "Madrasta"),
-    DOZE(12, "Outros membros da família em geral"),
-    TREZE(13, "Responsável / Guardião"),
-    QUATORZE(14, "Outros")
+    UM(1, "1 - Secretaria assistência social /  CRAS / CREAS"),
+    DOIS(2, "2 - Secretaria de saúde / unidades de saúde"),
+    TRES(3, "3 - Educação / Municipio"),
+    QUATRO(4, "4 - Educação / ONG / Particular / AFASC"),
+    CINCO(5, "5 - Hospitais"),
+    SEIS(6, "6 - Policia civil"),
+    SETE(7, "7 - Policia militar"),
+    OITO(8, "8 - Pai"),
+    NOVE(9, "9 - Mãe"),
+    DEZ(10, "10 - Padrasto"),
+    ONZE(11, "11 - Madrasta"),
+    DOZE(12, "12 - Outros membros da família em geral"),
+    TREZE(13, "13 - Responsável / Guardião"),
+    QUATORZE(14, "14 - Outros")
     ;
 
     private Integer value;
