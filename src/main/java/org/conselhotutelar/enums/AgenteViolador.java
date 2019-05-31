@@ -1,5 +1,10 @@
 package org.conselhotutelar.enums;
 
+import org.conselhotutelar.modelos.DynamicDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum AgenteViolador {
 
     UM(1, "1 - Secretaria assistência social /  CRAS / CREAS"),
@@ -33,6 +38,16 @@ public enum AgenteViolador {
             }
         }
         throw new IllegalArgumentException(String.format("Valor '%s' inválido para opção do agente violador", value));
+    }
+
+    public static List<DynamicDto> builderAsDtoList() {
+        DynamicDto dto;
+        List<DynamicDto> dtos = new ArrayList<>();
+        for (AgenteViolador av : AgenteViolador.values()) {
+            dto = DynamicDto.build().withInteger("value", av.getValue()).with("descricao", av.getDescricao());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public Integer getValue() {

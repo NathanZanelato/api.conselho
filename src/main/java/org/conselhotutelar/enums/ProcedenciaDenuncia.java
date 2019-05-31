@@ -1,5 +1,10 @@
 package org.conselhotutelar.enums;
 
+import org.conselhotutelar.modelos.DynamicDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum ProcedenciaDenuncia {
 
 
@@ -31,6 +36,16 @@ public enum ProcedenciaDenuncia {
             }
         }
         throw new IllegalArgumentException(String.format("Valor '%s' inválido para procedência da denúncia", value));
+    }
+
+    public static List<DynamicDto> builderAsDtoList() {
+        DynamicDto dto;
+        List<DynamicDto> dtos = new ArrayList<>();
+        for (ProcedenciaDenuncia pd : ProcedenciaDenuncia.values()) {
+            dto = DynamicDto.build().withInteger("value", pd.getValue()).with("descricao", pd.getDescricao());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public Integer getValue() {

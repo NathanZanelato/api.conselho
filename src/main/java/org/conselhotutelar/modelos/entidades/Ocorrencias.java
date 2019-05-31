@@ -33,7 +33,6 @@ public class Ocorrencias implements ValueObject {
     private Date dhOcorrencia;
 
     @Size(min = 3, max = 5000, message = "{Ocorrencias.descricao.Size}")
-    @NotNull(message = "{Ocorrencias.descricao.NotNull}")
     @Column(name = "DESCRICAO", length = 100, nullable = false)
     private String descricao;
 
@@ -43,7 +42,7 @@ public class Ocorrencias implements ValueObject {
     private Criancas crianca;
 
     @Size(min = 3, max = 100, message = "{Ocorrencias.responsavel.Size}")
-    @Column(name = "RESPONSAVEL", length = 20, nullable = false)
+    @Column(name = "RESPONSAVEL", length = 100, nullable = false)
     private String responsavel;
 
     @Column(name = "PROCEDENCIA_DENUNCIA")

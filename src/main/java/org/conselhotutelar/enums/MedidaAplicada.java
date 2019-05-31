@@ -1,5 +1,10 @@
 package org.conselhotutelar.enums;
 
+import org.conselhotutelar.modelos.DynamicDto;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum MedidaAplicada {
 
 
@@ -50,6 +55,16 @@ public enum MedidaAplicada {
             }
         }
         throw new IllegalArgumentException(String.format("Valor '%s' inválido para medida aplicada", value));
+    }
+
+    public static List<DynamicDto> builderAsDtoList() {
+        DynamicDto dto;
+        List<DynamicDto> dtos = new ArrayList<>();
+        for (MedidaAplicada ma : MedidaAplicada.values()) {
+            dto = DynamicDto.build().withInteger("value", ma.getValue()).with("descricao", ma.getDescricao());
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     public Integer getValue() {
