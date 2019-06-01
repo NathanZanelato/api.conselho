@@ -1,6 +1,9 @@
 package org.conselhotutelar.repositorios;
 
-import org.conselhotutelar.enums.*;
+import org.conselhotutelar.enums.DireitoViolado;
+import org.conselhotutelar.enums.MedidaAplicada;
+import org.conselhotutelar.enums.PersistenceAction;
+import org.conselhotutelar.enums.SimNao;
 import org.conselhotutelar.modelos.entidades.Atendimentos;
 import org.conselhotutelar.utilitarios.AbstractGenericCrud;
 import org.conselhotutelar.utilitarios.BusinessException;
@@ -32,16 +35,28 @@ public class AtendimentosRepository extends AbstractGenericCrud<Atendimentos> {
         if (action.equals(INSERT) || action.equals(UPDATE)) {
 
             try {
-                MedidaAplicada.byValue(atendimento.getMedidaAplicada());
-            } catch (IllegalArgumentException e) {
-                throw new BusinessException(e.getMessage());
-            }
-            try {
-                DireitoViolado.byValue(atendimento.getViolacaoDireito());
+                if (atendimento.getMedidaAplicada() != null) {
+                    MedidaAplicada.byValue(atendimento.getMedidaAplicada());
+                }
             } catch (IllegalArgumentException e) {
                 throw new BusinessException(e.getMessage());
             }
 
+            try {
+                if (atendimento.getViolacaoDireito() != null) {
+                    DireitoViolado.byValue(atendimento.getViolacaoDireito());
+                }
+            } catch (IllegalArgumentException e) {
+                throw new BusinessException(e.getMessage());
+            }
+
+            try {
+                if (atendimento.getPossuiAgendamento() != null) {
+                    SimNao.byValue(atendimento.getPossuiAgendamento());
+                }
+            } catch (IllegalArgumentException e) {
+                throw new BusinessException(e.getMessage());
+            }
         }
 
         super.applyBusinessRules(atendimento, action);
