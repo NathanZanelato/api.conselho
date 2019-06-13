@@ -52,7 +52,10 @@ public class AtendimentosRepository extends AbstractGenericCrud<Atendimentos> {
 
             try {
                 if (atendimento.getPossuiAgendamento() != null) {
-                    SimNao.byValue(atendimento.getPossuiAgendamento());
+                    SimNao possuiAgendamento = SimNao.byValue(atendimento.getPossuiAgendamento());
+                    if (SimNao.SIM.equals(possuiAgendamento) && atendimento.getDhAtendimento() == null) {
+                        throw new BusinessException("A data e hora de agendamento do atendimento não pode ser em branco.");
+                    }
                 }
             } catch (IllegalArgumentException e) {
                 throw new BusinessException(e.getMessage());

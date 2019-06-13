@@ -48,6 +48,10 @@ public class Atendimentos implements ValueObject {
     @Column(name = "POSSUI_AGENDAMENTO", length = 1, nullable = false)
     private String possuiAgendamento;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DH_ATENDIMENTO")
+    private Date dhAtendimento;
+
     @Override
     public Long getId() {
         return id;
@@ -113,4 +117,11 @@ public class Atendimentos implements ValueObject {
         this.possuiAgendamento = possuiAgendamento;
     }
 
+    public Date getDhAtendimento() {
+        return dhAtendimento;
+    }
+
+    public void setDhAtendimento(Date dhAtendimento) {
+        this.dhAtendimento = dhAtendimento;
+    }
 }
