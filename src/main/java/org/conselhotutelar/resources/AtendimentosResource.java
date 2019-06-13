@@ -38,4 +38,17 @@ public class AtendimentosResource extends AbstractCrudResource<Atendimentos> {
     public Response getAgentesVioladores() {
         return Response.ok(DireitoViolado.builderAsDtoList()).status(Response.Status.OK).build();
     }
+
+    @GET
+    @Path("agendados")
+    public Response getAtendimentosAgendados() {
+        return Response.ok(repository.getAtendimentosAgendados()).status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("agendados-para-hoje")
+    public Response getAtendimentosAgendadosParaHoje() {
+        return Response.ok(repository.getAgendadosParaHoje()).status(Response.Status.OK).build();
+    }
+
 }

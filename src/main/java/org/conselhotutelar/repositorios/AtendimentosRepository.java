@@ -14,6 +14,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static org.conselhotutelar.enums.PersistenceAction.INSERT;
 import static org.conselhotutelar.enums.PersistenceAction.UPDATE;
 
@@ -27,6 +29,14 @@ public class AtendimentosRepository extends AbstractGenericCrud<Atendimentos> {
     @Override
     public GenericRepository<Atendimentos> getRepository() {
         return repository;
+    }
+
+    public List<Atendimentos> getAtendimentosAgendados() {
+        return repository.getByCriteria("possui_agendamento = 'S' and dh_atendimento > current_date()+1 order by dh_atendimento");
+    }
+
+    public List<Atendimentos> getAgendadosParaHoje() {
+        return repository.getByCriteria("possui_agendamento = 'S' and dh_atendimento BETWEEN current_date()-1 and current_date()+1 order by dh_atendimento");
     }
 
     @Override
