@@ -20,6 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -45,8 +46,12 @@ public class OcorrenciasRelatorioResource {
         List<DynamicDto> dados = new ArrayList<>();
 
         try {
-            HashMap<String, Object> parametros = new HashMap<>();//
+            HashMap<String, Object> parametros = new HashMap<>();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             parametros.put("pDhRelatorio", new Date());
+            parametros.put("pDtInicial", sdf.format(dtInicial));
+            parametros.put("pDtFinal", sdf.format(dtFinal));
+            parametros.put("pSexo", sexoDaCrianca);
             DynamicDto row;
             for (Ocorrencias ocorrencia : getDados(dtInicial, dtFinal, sexoDaCrianca)) {
                 row = DynamicDto.build().with("idOcorrencia", ocorrencia.getId())
