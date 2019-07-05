@@ -54,6 +54,7 @@ public class OcorrenciasRelatorioResource {
                         .with("nomeConselheira", ocorrencia.getConselheira().getNome())
                         .with("nomeCrianca", ocorrencia.getCrianca().getNome())
                         .with("sexoDaCrianca", ocorrencia.getCrianca().getSexo())
+                        .with("descricao", ocorrencia.getDescricao())
                 ;
                 dados.add(row);
             }
@@ -126,7 +127,7 @@ public class OcorrenciasRelatorioResource {
     private List<Ocorrencias> getDados(Date dtInicial, Date dtFinal, String sexoDaCrianca) {
         TypedQuery<Ocorrencias> query = em.createNamedQuery("OcorrenciasPorPeriodo", Ocorrencias.class)
                 .setParameter("dtInicial", dtInicial, TemporalType.DATE).setParameter("dtFinal", dtFinal, TemporalType.DATE);
-        if (sexoDaCrianca == null || !"MFO".contains(sexoDaCrianca)) {
+        if (sexoDaCrianca == null || sexoDaCrianca.isEmpty() || !"MFO".contains(sexoDaCrianca)) {
             return query.getResultList();
         }
         return query.getResultList().stream()
