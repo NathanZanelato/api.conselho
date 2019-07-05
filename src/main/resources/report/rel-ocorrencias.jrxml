@@ -7,12 +7,15 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="pDhRelatorio" class="java.util.Date"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
 	<field name="idOcorrencia" class="java.lang.Long"/>
 	<field name="dhOcorrencia" class="java.util.Date"/>
 	<field name="nomeConselheira" class="java.lang.String"/>
+	<field name="nomeCrianca" class="java.lang.String"/>
+	<field name="sexoDaCrianca" class="java.lang.String"/>
 	<title>
 		<band height="104" splitType="Stretch">
 			<staticText>
@@ -50,6 +53,17 @@
 				</textElement>
 				<text><![CDATA[Data hora]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="397" y="6" width="100" height="15" uuid="6f294e65-a357-4574-a713-5b76ce847fe2"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Criança]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="598" y="2" width="100" height="20" uuid="c901a1a4-a69d-4c21-b882-4360501dc1c6"/>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -62,12 +76,21 @@
 				<textFieldExpression><![CDATA[$F{idOcorrencia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="225" y="1" width="154" height="20" uuid="d55965bc-5cd8-4524-8f50-6f54ab0949fd"/>
+				<reportElement x="225" y="1" width="154" height="14" uuid="d55965bc-5cd8-4524-8f50-6f54ab0949fd"/>
 				<textFieldExpression><![CDATA[$F{nomeConselheira}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy h.mm a">
 				<reportElement x="107" y="1" width="109" height="14" uuid="2a3bec7e-62fb-4ae0-bf41-242dd8b6cb7d"/>
 				<textFieldExpression><![CDATA[$F{dhOcorrencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="1" width="154" height="14" uuid="fd837360-610b-4326-8b0d-2c9c4e33f5db"/>
+				<textFieldExpression><![CDATA[$F{nomeCrianca}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="598" y="2" width="100" height="15" uuid="ef72f26d-743e-49d7-8c1f-903afc5a6b7d"/>
+				<textFieldExpression><![CDATA["M".equals($F{sexoDaCrianca}) ? "Masculino" :
+"F".equals($F{sexoDaCrianca}) ? "Feminino" : "Outro"]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -77,11 +100,11 @@
 	<pageFooter>
 		<band height="39" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="671" y="0" width="131" height="20" forecolor="#000000" uuid="93378384-138a-4fce-aff8-03d780c3927f"/>
+				<reportElement x="557" y="4" width="244" height="14" uuid="833e0968-a50b-4476-b65d-6f65c085e39e"/>
 				<textElement textAlignment="Right">
-					<font fontName="SansSerif" size="12" isBold="false"/>
+					<font size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{pDhRelatorio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

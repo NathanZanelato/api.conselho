@@ -20,11 +20,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Path("ocorrencias/relatorio_ocorrencias")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -32,7 +30,6 @@ public class OcorrenciasRelatorioResource {
 
     private final String outputType = "pdf";
     private final String fileName = "relatorio-de-ocorrencias";
-    private final String fileOutput = "/home/daniel/" + fileName + "." + outputType;
 
     @Inject
     private EntityManager em;
@@ -48,12 +45,16 @@ public class OcorrenciasRelatorioResource {
         List<DynamicDto> dados = new ArrayList<>();
 
         try {
-            HashMap parametros = new HashMap();
+            HashMap<String, Object> parametros = new HashMap<>();//
+            parametros.put("pDhRelatorio", new Date());
             DynamicDto row;
             for (Ocorrencias ocorrencia : getDados(dtInicial, dtFinal, sexoDaCrianca)) {
                 row = DynamicDto.build().with("idOcorrencia", ocorrencia.getId())
-                        .with("dhOcorrencia", ocorrencia.getDhOcorrencia()
-                        ).with("nomeConselheira", ocorrencia.getConselheira().getNome());
+                        .with("dhOcorrencia", ocorrencia.getDhOcorrencia())
+                        .with("nomeConselheira", ocorrencia.getConselheira().getNome())
+                        .with("nomeCrianca", ocorrencia.getCrianca().getNome())
+                        .with("sexoDaCrianca", ocorrencia.getCrianca().getSexo())
+                ;
                 dados.add(row);
             }
 
@@ -65,13 +66,11 @@ public class OcorrenciasRelatorioResource {
 
             JasperPrint impressao;
             impressao = JasperFillManager.fillReport(relJasper, parametros, ds);
-            //JasperViewer viewer = new JasperViewer(impressao, true);
-            //viewer.setVisible(true);
             final byte[] file = JasperExportManager.exportReportToPdf(impressao);
-            System.out.println("PDF gerado...");
 
             FileInputStream fileInputStream = new FileInputStream(geraPDFEmDisco(file));
-            javax.ws.rs.core.Response.ResponseBuilder response = javax.ws.rs.core.Response.ok(fileInputStream);
+            Response.ResponseBuilder response = Response.ok(fileInputStream);
+            final String fileOutput = fileName + "." + outputType;
 
             return response.type("application/pdf").header("Content-Disposition", "filename="+fileOutput).build();
 
@@ -83,10 +82,12 @@ public class OcorrenciasRelatorioResource {
     }
 
     private File geraPDFEmDisco(byte[] data) {
+        if (data == null) {
+            return null;
+        }
         OutputStream out = null;
         try {
-            File file = new File(fileOutput);
-            //File file = File.createTempFile(fileName, "." + outputType);
+            File file = File.createTempFile(fileName, "." + outputType);
             out = new FileOutputStream(file);
             return file;
         } catch (IOException e) {
@@ -125,7 +126,11 @@ public class OcorrenciasRelatorioResource {
     private List<Ocorrencias> getDados(Date dtInicial, Date dtFinal, String sexoDaCrianca) {
         TypedQuery<Ocorrencias> query = em.createNamedQuery("OcorrenciasPorPeriodo", Ocorrencias.class)
                 .setParameter("dtInicial", dtInicial, TemporalType.DATE).setParameter("dtFinal", dtFinal, TemporalType.DATE);
-        return query.getResultList();
+        if (sexoDaCrianca == null || !"MFO".contains(sexoDaCrianca)) {
+            return query.getResultList();
+        }
+        return query.getResultList().stream()
+                .filter(o -> o.getCrianca().getSexo().equals(sexoDaCrianca)).collect(Collectors.toList());
     }
 
     private InputStream getJasperFile() {

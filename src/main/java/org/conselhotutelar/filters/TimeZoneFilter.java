@@ -22,7 +22,8 @@ public class TimeZoneFilter implements Filter {
             throws IOException, ServletException {
 
         // configura o timezone na JVM do Java para todas as URLs a partir de /api.conselho
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC-3"));
+        // TimeZone.setDefault(TimeZone.getTimeZone("UTC-3"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
 
         chain.doFilter(request, response);
     }
