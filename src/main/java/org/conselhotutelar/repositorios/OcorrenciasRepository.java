@@ -1,6 +1,8 @@
 package org.conselhotutelar.repositorios;
 
-import org.conselhotutelar.enums.*;
+import org.conselhotutelar.enums.AgenteViolador;
+import org.conselhotutelar.enums.PersistenceAction;
+import org.conselhotutelar.enums.ProcedenciaDenuncia;
 import org.conselhotutelar.modelos.entidades.Ocorrencias;
 import org.conselhotutelar.utilitarios.AbstractGenericCrud;
 import org.conselhotutelar.utilitarios.BusinessException;

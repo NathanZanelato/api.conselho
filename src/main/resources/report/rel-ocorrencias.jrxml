@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel-ocorrencias" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="71947bd7-3170-4b2f-94ae-8d3b07297dfa">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rel-ocorrencias" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="71947bd7-3170-4b2f-94ae-8d3b07297dfa">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -7,11 +7,12 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<queryString language="">
+	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="idOcorrencia" class="java.lang.String"/>
-	<field name="dhOcorrencia" class="java.lang.String"/>
+	<field name="idOcorrencia" class="java.lang.Long"/>
+	<field name="dhOcorrencia" class="java.util.Date"/>
+	<field name="nomeConselheira" class="java.lang.String"/>
 	<title>
 		<band height="104" splitType="Stretch">
 			<staticText>
@@ -27,24 +28,46 @@
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="25" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="5" y="5" width="95" height="15" uuid="f3e6f456-a0ad-4ba9-af2f-868f44535756"/>
+				<reportElement x="5" y="5" width="95" height="15" uuid="f3e6f456-a0ad-4ba9-af2f-868f44535756"/>
 				<textElement>
 					<font fontName="SansSerif"/>
 				</textElement>
 				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="225" y="5" width="100" height="15" uuid="bc89b26c-591c-423a-85cb-94cf3b1576e4"/>
+				<textElement>
+					<font fontName="SansSerif" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Conselheira]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="5" width="95" height="15" uuid="443af55f-d720-441e-af68-cc00558e463c"/>
+				<textElement>
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Data hora]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="21" splitType="Stretch">
 			<textField>
-				<reportElement style="Detail" x="10" y="0" width="90" height="15" uuid="754e4b8f-94f6-4277-aa94-9197b85ba115"/>
+				<reportElement style="Detail" x="5" y="0" width="95" height="15" uuid="754e4b8f-94f6-4277-aa94-9197b85ba115"/>
 				<textElement>
 					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{idOcorrencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="1" width="154" height="20" uuid="d55965bc-5cd8-4524-8f50-6f54ab0949fd"/>
+				<textFieldExpression><![CDATA[$F{nomeConselheira}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="107" y="1" width="109" height="14" uuid="2a3bec7e-62fb-4ae0-bf41-242dd8b6cb7d"/>
+				<textFieldExpression><![CDATA[$F{dhOcorrencia}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
