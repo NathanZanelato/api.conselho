@@ -9,7 +9,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "OCORRENCIAS")
-@NamedQuery(query = "select o from Ocorrencias o where o.dhOcorrencia Between :dtInicial and :dtFinal", name = "OcorrenciasPorPeriodo")
 @SequenceGenerator(name = "OCORRENCIAS_SEQ", sequenceName = "OCORRENCIAS_SEQ", allocationSize = 1)
 public class Ocorrencias implements ValueObject {
 
