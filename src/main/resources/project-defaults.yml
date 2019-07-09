@@ -3,7 +3,7 @@ swarm:
     data-sources:
       conselhoDS:
         driver-name: postgresql
-        connection-url: jdbc:postgresql://172.17.0.2:5432/conselho
+        connection-url: jdbc:postgresql://localhost:5432/conselho
         user-name: postgres
         password: postgres
         valid-connection-checker-class-name: org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker
