@@ -3,6 +3,7 @@ package org.conselhotutelar.repositorios;
 import org.conselhotutelar.enums.AgenteViolador;
 import org.conselhotutelar.enums.PersistenceAction;
 import org.conselhotutelar.enums.ProcedenciaDenuncia;
+import org.conselhotutelar.modelos.entidades.Atendimentos;
 import org.conselhotutelar.modelos.entidades.Ocorrencias;
 import org.conselhotutelar.utilitarios.AbstractGenericCrud;
 import org.conselhotutelar.utilitarios.BusinessException;
@@ -12,6 +13,8 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
+
+import java.util.List;
 
 import static org.conselhotutelar.enums.PersistenceAction.INSERT;
 import static org.conselhotutelar.enums.PersistenceAction.UPDATE;
@@ -26,6 +29,10 @@ public class OcorrenciasRepository extends AbstractGenericCrud<Ocorrencias> {
     @Override
     public GenericRepository<Ocorrencias> getRepository() {
         return repository;
+    }
+
+    public List<Ocorrencias> getHistoricoOcorrenciasCrianca(Long idCrianca) {
+        return repository.getByCriteria("o.crianca.id = " + idCrianca + " order by dh_ocorrencia");
     }
 
     @Override
