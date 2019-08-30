@@ -34,7 +34,7 @@ public class OcorrenciasRepository extends AbstractGenericCrud<Ocorrencias> {
 
     public List<Ocorrencias> getHistoricoOcorrenciasCrianca(Long idCrianca) {
         if (idCrianca == null) { return new ArrayList<>(); }
-        return repository.getByCriteria("o.crianca.id = " + idCrianca + " order by dh_ocorrencia order by desc");
+        return repository.getByCriteria("o.crianca.id = " + idCrianca + " order by dh_ocorrencia desc");
     }
 
     @Override
