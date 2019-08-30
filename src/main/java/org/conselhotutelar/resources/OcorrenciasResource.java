@@ -36,7 +36,6 @@ public class OcorrenciasResource extends AbstractCrudResource<Ocorrencias> {
         return Response.ok(repository.getHistoricoOcorrenciasCrianca(idCrianca)).status(Status.OK).build();
     }
 
-
     @GET
     @Path("procedenciasDenuncias")
     public Response getProcedenciasDenuncia() {

@@ -14,6 +14,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.conselhotutelar.enums.PersistenceAction.INSERT;
@@ -32,7 +33,8 @@ public class OcorrenciasRepository extends AbstractGenericCrud<Ocorrencias> {
     }
 
     public List<Ocorrencias> getHistoricoOcorrenciasCrianca(Long idCrianca) {
-        return repository.getByCriteria("o.crianca.id = " + idCrianca + " order by dh_ocorrencia");
+        if (idCrianca == null) { return new ArrayList<>(); }
+        return repository.getByCriteria("o.crianca.id = " + idCrianca + " order by dh_ocorrencia order by desc");
     }
 
     @Override
