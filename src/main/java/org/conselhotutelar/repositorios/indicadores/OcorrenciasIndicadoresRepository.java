@@ -3,6 +3,7 @@ package org.conselhotutelar.repositorios.indicadores;
 import org.conselhotutelar.enums.Mes;
 import org.conselhotutelar.enums.Sexo;
 import org.conselhotutelar.modelos.DynamicDto;
+import org.conselhotutelar.utilitarios.RelatoriosUtils;
 
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
@@ -20,12 +21,12 @@ public class OcorrenciasIndicadoresRepository {
     @Inject
     private EntityManager em;
 
-    public List<DynamicDto> buildResult(Integer ano) {
+    public List<DynamicDto> buildResultPorSexoNoAno(Integer ano) {
 
         if (ano == null || ano <= 0)
             return new ArrayList<>();
 
-        List<DynamicDto> dados = getDados(ano);
+        List<DynamicDto> dados = getDadosPorSexoNoAno(ano);
 
         int quantidade;
         List<DynamicDto> resultList = new ArrayList<>();
@@ -50,7 +51,16 @@ public class OcorrenciasIndicadoresRepository {
         return resultList;
     }
 
-    private List<DynamicDto> getDados(Integer ano) {
+    public List<DynamicDto> buildResultRecorrenciasNosUltimosMeses(Integer qtdMeses) {
+        if (qtdMeses == null || qtdMeses <= 0)
+            return new ArrayList<>();
+
+        List<DynamicDto> dados = getDadosRecorrenciasUltimosMeses(qtdMeses);
+
+        return dados;
+    }
+
+    private List<DynamicDto> getDadosPorSexoNoAno(Integer ano) {
 
         StringBuilder sql = new StringBuilder();
         sql.append("select extract(month from o.dh_ocorrencia) as mes, c.sexo, count(*) ");
@@ -68,6 +78,27 @@ public class OcorrenciasIndicadoresRepository {
                     .with("mes", row[0])
                     .with("sexo", row[1])
                     .with("quantidade", row[2]));
+        }
+        return dados;
+    }
+
+    private List<DynamicDto> getDadosRecorrenciasUltimosMeses(Integer qtdMeses) {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("select count(id_crianca), total_ocorrencias from (");
+        sql.append("       select id_crianca, count(*) as total_ocorrencias ");
+        sql.append("         from ocorrencias where dh_ocorrencia >= :dataInicial ");
+        sql.append("        group by id_crianca) as tmp " );
+        sql.append("group by total_ocorrencias order by 2");
+
+        Query query = em.createNativeQuery(sql.toString()).setParameter("dataInicial",
+                RelatoriosUtils.getDataAMesesAtras(qtdMeses));
+        List<Object[]> resultList = query.getResultList();
+        List<DynamicDto> dados = new ArrayList<>();
+        for (Object[] row : resultList) {
+            dados.add(DynamicDto.build()
+                    .with("totalOcorrencias", row[1])
+                    .with("qtdCriancas", row[0]));
         }
         return dados;
     }
