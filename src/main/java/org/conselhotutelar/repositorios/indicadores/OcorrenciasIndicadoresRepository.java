@@ -52,11 +52,23 @@ public class OcorrenciasIndicadoresRepository {
     }
 
     public List<DynamicDto> buildResultRecorrenciasNosUltimosMeses(Integer qtdMeses) {
-        if (qtdMeses == null || qtdMeses <= 0)
+        if (qtdMeses == null || qtdMeses.compareTo(0) <= 0)
             return new ArrayList<>();
 
-        List<DynamicDto> dados = getDadosRecorrenciasUltimosMeses(qtdMeses);
+        return getDadosRecorrenciasUltimosMeses(qtdMeses);
+    }
 
+    public List<DynamicDto> buildResultRecorrenciasNoMes(Integer ano, Integer mes) {
+        if (ano == null || ano.compareTo(0) <= 0 || mes == null || mes.compareTo(0) <= 0)
+            return new ArrayList<>();
+
+        List<DynamicDto> dados = getDadosRecorrenciasNoMes(ano, mes);
+
+        if (dados.isEmpty()) {
+            dados.add(DynamicDto.build()
+                    .with("totalOcorrencias", 0)
+                    .with("qtdCriancas", 0));
+        }
         return dados;
     }
 
@@ -93,6 +105,27 @@ public class OcorrenciasIndicadoresRepository {
 
         Query query = em.createNativeQuery(sql.toString()).setParameter("dataInicial",
                 RelatoriosUtils.getDataAMesesAtras(qtdMeses));
+        List<Object[]> resultList = query.getResultList();
+        List<DynamicDto> dados = new ArrayList<>();
+        for (Object[] row : resultList) {
+            dados.add(DynamicDto.build()
+                    .with("totalOcorrencias", row[1])
+                    .with("qtdCriancas", row[0]));
+        }
+        return dados;
+    }
+
+
+    private List<DynamicDto> getDadosRecorrenciasNoMes(Integer ano, Integer mes) {
+
+        StringBuilder sql = new StringBuilder();
+        sql.append("select count(id_crianca), total_ocorrencias from (");
+        sql.append("       select id_crianca, count(*) as total_ocorrencias ");
+        sql.append("         from ocorrencias where extract(year from dh_ocorrencia) = :ano and extract(month from dh_ocorrencia) = :mes  ");
+        sql.append("        group by id_crianca) as tmp " );
+        sql.append("group by total_ocorrencias order by 2");
+
+        Query query = em.createNativeQuery(sql.toString()).setParameter("ano", ano).setParameter("mes", mes);
         List<Object[]> resultList = query.getResultList();
         List<DynamicDto> dados = new ArrayList<>();
         for (Object[] row : resultList) {

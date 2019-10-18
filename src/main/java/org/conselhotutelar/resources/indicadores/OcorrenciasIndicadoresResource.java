@@ -49,4 +49,21 @@ public class OcorrenciasIndicadoresResource {
 
         return Response.ok().entity("{\"message\" : \"Não foi possível recuperar os dados\"}").build();
     }
+
+    @GET
+    @Path("recorrencia/{ano}/{mes}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response executarIndicadorPorRecorrenciaNoMes(@PathParam("ano") Integer ano, @PathParam("mes") Integer mes) {
+        try {
+
+            Response.ResponseBuilder response = Response.ok(repository.buildResultRecorrenciasNoMes(ano, mes));
+            return response.type(MediaType.APPLICATION_JSON_TYPE).build();
+
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getSimpleName()).log(Level.WARNING, e.getMessage());
+        }
+
+        return Response.ok().entity("{\"message\" : \"Não foi possível recuperar os dados\"}").build();
+    }
+
 }
